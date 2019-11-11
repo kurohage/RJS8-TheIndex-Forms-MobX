@@ -1,6 +1,9 @@
 import { decorate, observable, computed } from "mobx";
 import axios from "axios";
 
+// Stores
+import authorStore from "./authorStore";
+
 const instance = axios.create({
   baseURL: "https://the-index-api.herokuapp.com/api/"
 });
@@ -33,6 +36,8 @@ class BookStore {
       });
       const book = res.data;
       this.books.unshift(book);
+      const auth = authorStore.getAuthorById(author[0]);
+      auth.books.unshift(book.id);
       this.errors = null;
     } catch (err) {
       this.errors = errToArray(err.response.data);

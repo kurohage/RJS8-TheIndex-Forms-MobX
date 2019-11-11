@@ -24,7 +24,7 @@ class BookForm extends Component {
     event.preventDefault();
     await bookStore.addBook(this.state, [this.props.author.id]);
     if (!bookStore.errors) {
-      //this.props.closeModal();
+      this.props.closeModal();
     }
   };
 

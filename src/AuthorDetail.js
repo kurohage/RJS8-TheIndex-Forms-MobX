@@ -1,4 +1,5 @@
 import React from "react";
+import { observer } from "mobx-react";
 
 // Components
 import BookTable from "./BookTable";
@@ -31,4 +32,4 @@ const AuthorDetail = props => {
   );
 };
 
-export default AuthorDetail;
+export default observer(AuthorDetail);
