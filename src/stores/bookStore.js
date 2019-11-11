@@ -5,12 +5,15 @@ const instance = axios.create({
   baseURL: "https://the-index-api.herokuapp.com/api/"
 });
 
+function errToArray(err) {
+  return Object.keys(err).map(key => `${key}: ${err[key]}`);
+}
+
 class BookStore {
   books = [];
-
   query = "";
-
   loading = true;
+  errors = null;
 
   fetchBooks = async () => {
     try {
@@ -19,6 +22,21 @@ class BookStore {
       this.books = books;
       this.loading = false;
     } catch (err) {}
+  };
+
+  addBook = async (newBook, author) => {
+    try {
+      const res = await instance.post("books/", {
+        title: newBook.title,
+        color: newBook.colorSelected,
+        authors: author
+      });
+      const book = res.data;
+      this.books.unshift(book);
+      this.errors = null;
+    } catch (err) {
+      this.errors = errToArray(err.response.data);
+    }
   };
 
   get filteredBooks() {
